@@ -2,11 +2,18 @@ import httplib2,logging,os,webapp2,jinja2,json
 from StringIO import StringIO
 from pyPdf import PdfFileReader
 
+from protomodels import BookListMessage,ReadEventMessage,UserInfoMessage,BookMessage
+from model import User,Doc,ReadEvent
+
 from apiclient.discovery import build
 from oauth2client.appengine import oauth2decorator_from_clientsecrets,CredentialsProperty	
 from oauth2client.client import AccessTokenRefreshError
-from google.appengine.api import memcache
+from google.appengine.api import memcache,users
 from google.appengine.ext import db
+from google.appengine.ext.db import Key
+
+from protorpc import remote,message_types
+from protorpc.wsgi import service as protoservice
 
 jinja_environment = jinja2.Environment(
         loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -63,10 +70,30 @@ class MainPage(webapp2.RequestHandler):
 					logging.error('An error occured %s' % resp)
 			else:
 				logging.info('No download url for file %s' % f['title'])
+
+		logging.info('User email: %s' % users.get_current_user().email())
+		curUser = User.get_or_insert(users.get_current_user().email(),email=users.get_current_user().email())
+		for f in resultlist:
+			Doc.get_or_insert(f['id'],parent=curUser.key(),title=f['id'],totalPages=f['numpages'],user=curUser)
+
 		template_values = {
 			'filelist' : resultlist
 		}
 		template = jinja_environment.get_template('home.html')
 		self.response.out.write(template.render(template_values))
 
+class ApiService(remote.Service):
+	@remote.method(UserInfoMessage,BookListMessage)
+	def list(self,request):
+		q=User.get(Key.from_path('User',request.user_email))
+		results = q.documents
+		logging.info(results)
+		messagesdocs = map(lambda doc:BookMessage(bookid=doc.key().name(),total_pages=doc.totalPages,current_page=doc.currentPage),results)
+		return BookListMessage(books=messagesdocs)
+
+	@remote.method(ReadEventMessage,message_types.VoidMessage)
+	def readevent(self,request):
+		pass
+
 app = webapp2.WSGIApplication([ ('/',MainPage),(decorator.callback_path, decorator.callback_handler())],debug=True)
+api = protoservice.service_mapping(ApiService)

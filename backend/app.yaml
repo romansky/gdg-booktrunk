@@ -14,5 +14,7 @@ libraries:
   version: "latest"
 
 handlers:
+- url: /ApiService.*
+  script: handlers.main.api
 - url: /.*
   script: handlers.main.app
