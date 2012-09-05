@@ -49,7 +49,7 @@ class MainPage(webapp2.RequestHandler):
 		request = service.files().list()
 		response = request.execute(http=http)
 		resultlist = []
-		for f in filter(lambda x:x['mimeType'] == 'application/pdf',response['items']):
+		for f in filter(lambda x:x['mimeType'] == 'application/pdf' and not x['labels']['trashed'],response['items']):
 			downloadUrl = f.get('downloadUrl')
 			if downloadUrl:
 				logging.info('Request file %s' % f['title'])	
