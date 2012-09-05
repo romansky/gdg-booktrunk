@@ -43,3 +43,14 @@ MVP
 * Pages read past month
 * Past week
 * How long will it take to complete reading the books - how old will I be?
+
+Links 
+=============
+
+Google drive API reference
+
+    https://developers.google.com/apis-explorer/#p/drive/v2/
+
+Google Drive Developers page
+
+    https://developers.google.com/drive/
