@@ -17,4 +17,29 @@ Other optional features:
 * semantic grouping of books (c++, agile, java etc..)
 * tells you how long does it usually take to read through a book
 * leave survey 
+* sharing books
  
+MVP
+==============
+
+### Web-Application
+
+* Choose your books folder
+* Choose your "done reading" books folder 
+* Choose the "current reading" book
+* Update the current page of the fcurrently reading book
+* Open the currently reading book
+* See statistics
+
+### Mobile App
+
+* See Statistics
+* Open the currently reading book
+* Update the current page for the current reading book
+
+### Statistics
+
+* Total number of pages
+* Pages read past month
+* Past week
+* How long will it take to complete reading the books - how old will I be?
