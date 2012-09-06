@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">android-booktrunk</string>
+    <string name="main__currently_reading_text">Currently reading:</string>
+    <string name="main__page_text">Page:</string>
+    <string name="main_out_of_pages_text">/250</string>
+    <string name="stats_view__total_number_of_pages">Total Number of pages:</string>
+    <string name="stats_view__complete_reading_time_text">how long will it take to complete reading the books</string>
+    <string name="stats_view__read_past_week">pages read past week</string>
+    <string name="stats_view__read_past_month">pages read past month:</string>
+    <string name="main__open_book_text">Open Book</string>
+    <string name="manifest__stats_text">Stats</string>
+</resources>
